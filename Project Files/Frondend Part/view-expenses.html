@@ -1,0 +1,176 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>All Expenses</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 30px;
+      background: linear-gradient(120deg, #e0f7fa, #fce4ec);
+      color: #333;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #6a1b9a;
+      font-size: 28px;
+      margin-bottom: 30px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #ffffff;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 14px;
+      text-align: center;
+      border-bottom: 1px solid #eeeeee;
+    }
+
+    th {
+      background: linear-gradient(to right, #2196f3, #21cbf3);
+      color: white;
+      font-size: 16px;
+    }
+
+    tr:hover {
+      background-color: #e8f5ff;
+    }
+
+    .btn {
+      padding: 8px 14px;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .edit-btn {
+      background: linear-gradient(to right, #fbc02d, #fdd835);
+    }
+
+    .edit-btn:hover {
+      background: linear-gradient(to right, #f9a825, #fbc02d);
+    }
+
+    .delete-btn {
+      background: linear-gradient(to right, #e53935, #d32f2f);
+    }
+
+    .delete-btn:hover {
+      background: linear-gradient(to right, #c62828, #b71c1c);
+    }
+
+    #total {
+      margin-top: 20px;
+      padding: 12px;
+      text-align: center;
+      font-weight: bold;
+      background-color: #ffe0f7;
+      font-size: 18px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>💸 All Expenses</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Sr No.</th>
+          <th>Title</th>
+          <th>Amount</th>
+          <th>Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="expenseTableBody"></tbody>
+    </table>
+    <div id="total">Loading total...</div>
+  </div>
+
+  <script>
+    async function fetchExpenses() {
+      try {
+        const response = await fetch("http://localhost:8086/api/expenses");
+        const data = await response.json();
+
+        const tableBody = document.getElementById("expenseTableBody");
+        const totalDiv = document.getElementById("total");
+        tableBody.innerHTML = "";
+
+        let total = 0;
+
+        data.forEach((expense, index) => {
+          total += expense.amount;
+
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${expense.title}</td>
+            <td>₹ ${expense.amount.toFixed(2)}</td>
+            <td>${expense.date}</td>
+            <td>
+              <button class="btn edit-btn" onclick="editExpense(${expense.id})">Edit</button>
+              <button class="btn delete-btn" onclick="deleteExpense(${expense.id})">Delete</button>
+            </td>
+          `;
+          tableBody.appendChild(row);
+        });
+
+        totalDiv.textContent = `🎯 Total: ₹ ${total.toFixed(2)}`;
+      } catch (error) {
+        console.error("Error fetching expenses:", error);
+        alert("Failed to load expenses. Please try again.");
+      }
+    }
+
+    async function deleteExpense(id) {
+      const confirmed = confirm("Are you sure you want to delete this expense?");
+      if (!confirmed) return;
+
+      try {
+        const response = await fetch(`http://localhost:8086/api/expenses/${id}`, {
+          method: 'DELETE'
+        });
+
+        if (response.ok) {
+          fetchExpenses(); 
+        } else {
+          alert("Failed to delete expense.");
+        }
+      } catch (error) {
+        console.error("Delete failed:", error);
+        alert("Something went wrong while deleting.");
+      }
+    }
+
+    function editExpense(id) {
+      window.location.href = `edit-expense.html?id=${id}`;
+    }
+
+    window.onload = fetchExpenses;
+  </script>
+</body>
+</html>

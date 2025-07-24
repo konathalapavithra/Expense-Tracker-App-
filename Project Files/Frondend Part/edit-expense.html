@@ -1,0 +1,99 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Expense</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f1f7fc;
+            padding: 20px;
+        }
+        form {
+            max-width: 500px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+        }
+        .btn {
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Edit Expense</h2>
+    <form id="editForm">
+        <label for="title">Title</label>
+        <input type="text" id="title" name="title" required>
+
+        <label for="amount">Amount</label>
+        <input type="number" id="amount" name="amount" required>
+
+        <label for="date">Date</label>
+        <input type="date" id="date" name="date" required>
+
+        <button type="submit" class="btn">Update Expense</button>
+    </form>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const expenseId = urlParams.get('id');
+
+        async function fetchExpense() {
+            const response = await fetch(`http://localhost:8086/api/expenses/${expenseId}`);
+            const expense = await response.json();
+
+            document.getElementById("title").value = expense.title;
+            document.getElementById("amount").value = expense.amount;
+            document.getElementById("date").value = expense.date;
+        }
+
+        document.getElementById("editForm").addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            const updatedExpense = {
+                title: document.getElementById("title").value,
+                amount: parseFloat(document.getElementById("amount").value),
+                date: document.getElementById("date").value
+            };
+
+            const response = await fetch(`http://localhost:8086/api/expenses/${expenseId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updatedExpense)
+            });
+
+            if (response.ok) {
+                alert("Expense updated successfully!");
+                window.location.href = "index.html"; // or wherever your main table is
+            } else {
+                alert("Failed to update expense.");
+            }
+        });
+
+        window.onload = fetchExpense;
+    </script>
+
+</body>
+</html>
