@@ -105,6 +105,24 @@ PUT	/api/transactions/{id}	Edit expense
 DELETE	/api/transactions/{id}	Delete expense
 
 ## 📊 Screenshots
+Add Expense page
+
+<img width="1042" height="578" alt="image" src="https://github.com/user-attachments/assets/56f6049c-134d-404d-8848-7581ac4c800f" />
+
+View Expense page
+
+<img width="1031" height="570" alt="image" src="https://github.com/user-attachments/assets/dce252e5-2f9e-44ce-85ce-0884556e66f7" />
+
+## 🌟 Future Enhancements
+
+🔐 User Authentication – Secure login and signup for personalized experience.
+📊 Dashboard – Centralized view of all expenses and summaries.
+🏷️ Categories – Organize expenses into Food, Travel, Bills, etc.
+💡 Budget Tracking – Set monthly/weekly budgets and track progress.
+⏰ Reminders & Notifications – Alerts for due payments and recurring expenses.
+📱 Mobile-Friendly UI – Improved responsive design for smartphones.
+
+
 
 
 
