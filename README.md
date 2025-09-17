@@ -5,8 +5,11 @@ The Expense Tracker App is a Java-based full-stack project that helps users mana
 ## 🚀 Features
 
 ➕ Add Expenses – Record expenses with details like amount, date, and description.
+
 📊 View Expenses – Display all expenses in a clear tabular format.
+
 📝 Edit & Delete – Update or remove transactions as needed.
+
 📈 Expense Summary – Get total calculation and simple charts for expense overview.
 
 ## 🛠️ Tech Stack
@@ -116,10 +119,15 @@ View Expense page
 ## 🌟 Future Enhancements
 
 🔐 User Authentication – Secure login and signup for personalized experience.
+
 📊 Dashboard – Centralized view of all expenses and summaries.
+
 🏷️ Categories – Organize expenses into Food, Travel, Bills, etc.
+
 💡 Budget Tracking – Set monthly/weekly budgets and track progress.
+
 ⏰ Reminders & Notifications – Alerts for due payments and recurring expenses.
+
 📱 Mobile-Friendly UI – Improved responsive design for smartphones.
 
 
